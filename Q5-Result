@@ -1,6 +1,8 @@
-amount
+ amount
 --------
-(0 rows)
+    540
+     28
+(2 rows)
 
  single | double | twin
 --------+--------+------
