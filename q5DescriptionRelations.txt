@@ -1,0 +1,87 @@
+cs421g45@comp421:~$ cat q5describe.log
+                                        Table "cs421g45.bill"
+       Column       |            Type             | Modifiers | Storage  | Stats target | Description 
+--------------------+-----------------------------+-----------+----------+--------------+-------------
+ bill_id            | character varying(20)       | not null  | extended |              | 
+ amount             | integer                     | not null  | plain    |              | 
+ date               | timestamp without time zone | not null  | plain    |              | 
+ reservation_number | character varying(20)       | not null  | extended |              | 
+Indexes:
+    "bill_pkey" PRIMARY KEY, btree (bill_id)
+Foreign-key constraints:
+    "bill_reservation_number_fkey" FOREIGN KEY (reservation_number) REFERENCES reservation(reservation_number)
+Referenced by:
+    TABLE "parking_bill" CONSTRAINT "parking_bill_bill_id_fkey" FOREIGN KEY (bill_id) REFERENCES bill(bill_id)
+    TABLE "room_bill" CONSTRAINT "room_bill_bill_id_fkey" FOREIGN KEY (bill_id) REFERENCES bill(bill_id)
+
+                                     Table "cs421g45.reservation"
+       Column       |            Type             | Modifiers | Storage  | Stats target | Description 
+--------------------+-----------------------------+-----------+----------+--------------+-------------
+ reservation_number | character varying(20)       | not null  | extended |              | 
+ arrival_date       | timestamp without time zone | not null  | plain    |              | 
+ depature_date      | timestamp without time zone | not null  | plain    |              | 
+ guest_id           | character varying(20)       | not null  | extended |              | 
+ room_number        | integer                     | not null  | plain    |              | 
+ online_reserved    | boolean                     | not null  | plain    |              | 
+ payment_type       | character varying(20)       |           | extended |              | 
+Indexes:
+    "reservation_pkey" PRIMARY KEY, btree (reservation_number)
+Foreign-key constraints:
+    "reservation_guest_id_fkey" FOREIGN KEY (guest_id) REFERENCES guest(guest_id)
+    "reservation_room_number_fkey" FOREIGN KEY (room_number) REFERENCES guestroom(room_number)
+Referenced by:
+    TABLE "bill" CONSTRAINT "bill_reservation_number_fkey" FOREIGN KEY (reservation_number) REFERENCES reservation(reservation_number)
+    TABLE "calendar" CONSTRAINT "calendar_reservation_number_fkey" FOREIGN KEY (reservation_number) REFERENCES reservation(reservation_number)
+
+                                      Table "cs421g45.calendar"
+       Column       |            Type             | Modifiers | Storage  | Stats target | Description 
+--------------------+-----------------------------+-----------+----------+--------------+-------------
+ room_number        | integer                     | not null  | plain    |              | 
+ reservation_number | character varying(20)       |           | extended |              | 
+ date               | timestamp without time zone | not null  | plain    |              | 
+Indexes:
+    "calendar_pkey" PRIMARY KEY, btree (room_number, date)
+Foreign-key constraints:
+    "calendar_reservation_number_fkey" FOREIGN KEY (reservation_number) REFERENCES reservation(reservation_number)
+    "calendar_room_number_fkey" FOREIGN KEY (room_number) REFERENCES guestroom(room_number)
+
+                               Table "cs421g45.guestroom"
+   Column    |         Type          | Modifiers | Storage  | Stats target | Description 
+-------------+-----------------------+-----------+----------+--------------+-------------
+ room_number | integer               | not null  | plain    |              | 
+ type        | character varying(20) | not null  | extended |              | 
+ price       | double precision      | not null  | plain    |              | 
+ bed_type    | character varying(20) | not null  | extended |              | 
+ bed_number  | integer               | not null  | plain    |              | 
+ guest_id    | character varying(20) |           | extended |              | 
+Indexes:
+    "guestroom_pkey" PRIMARY KEY, btree (room_number)
+Check constraints:
+    "check_number" CHECK (room_number >= 0 AND price >= 0::double precision AND bed_number > 0)
+Foreign-key constraints:
+    "guestroom_guest_id_fkey" FOREIGN KEY (guest_id) REFERENCES guest(guest_id)
+Referenced by:
+    TABLE "calendar" CONSTRAINT "calendar_room_number_fkey" FOREIGN KEY (room_number) REFERENCES guestroom(room_number)
+    TABLE "reservation" CONSTRAINT "reservation_room_number_fkey" FOREIGN KEY (room_number) REFERENCES guestroom(room_number)
+    TABLE "room_bill" CONSTRAINT "room_bill_room_number_fkey" FOREIGN KEY (room_number) REFERENCES guestroom(room_number)
+
+                                 Table "cs421g45.guest"
+   Column    |         Type          | Modifiers | Storage  | Stats target | Description 
+-------------+-----------------------+-----------+----------+--------------+-------------
+ guest_id    | character varying(20) | not null  | extended |              | 
+ first_name  | character varying(20) | not null  | extended |              | 
+ last_name   | character varying(20) | not null  | extended |              | 
+ phone       | character varying(20) |           | extended |              | 
+ email       | character varying(50) | not null  | extended |              | 
+ membership  | boolean               | not null  | plain    |              | 
+ personal_id | character varying(20) | not null  | extended |              | 
+Indexes:
+    "guest_pkey" PRIMARY KEY, btree (guest_id)
+    "unique_constraint" UNIQUE CONSTRAINT, btree (personal_id)
+Referenced by:
+    TABLE "guestroom" CONSTRAINT "guestroom_guest_id_fkey" FOREIGN KEY (guest_id) REFERENCES guest(guest_id)
+    TABLE "reservation" CONSTRAINT "reservation_guest_id_fkey" FOREIGN KEY (guest_id) REFERENCES guest(guest_id)
+
+
+
+

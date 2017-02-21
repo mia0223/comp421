@@ -1,0 +1,5 @@
+1. Given room number, find the amount of bill(s) when the guest checks out.
+2. Find the number of rooms occupied for each type of rooms.
+3. Given guest's personal_id and arrival date, find the reserved room number.
+4. Find all the reservation of a guest given the guest's personal_id.
+5. Find all the available rooms of a specific type.
