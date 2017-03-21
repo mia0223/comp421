@@ -1,3 +1,15 @@
+	import java.sql.*;
+
+	public static Connection connect() throws SQLException{
+		DriverManager.registerDriver(new org.postgresql.Driver());
+		Connection conn = DriverManager.getConnection(
+				"jdbc:postgresql://comp421.cs.mcgill.ca:5432/cs421",
+				"cs421g45","Comp421g45"
+				);
+		return conn;	
+	}
+
+
 	public static String checkIn(String personal_id, String today) throws SQLException{
 		//Date today = Date.valueOf(inputToday);
 		int room_number = 0;
