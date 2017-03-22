@@ -23,7 +23,7 @@ public class ChangeRoom {
 		Date d2 = Date.valueOf("2017-02-09");
 		//System.out.println(d1);
 		//System.out.println(checkOut(207, d2));
-		System.out.println(changeRoom(215,"2017-02-03","2017-02-09"));
+		System.out.println(changeRoom("215","2017-02-03","2017-02-09"));
 		//test(d1,d2);
 	}
 	
@@ -114,13 +114,15 @@ public class ChangeRoom {
 		}
 
 	//roomNo, start, end
-	public static String changeRoom(int roomNo, String start, String end) throws SQLException{
+	public static String changeRoom(String roomNo1, String start, String end) throws SQLException{
 		Connection conn = connect();
 		Statement stmt = conn.createStatement();
 		Date start1 = Date.valueOf(start);
 		Date end1 = Date.valueOf(end);
 		
 		String string = "";
+		
+		int roomNo = Integer.parseInt(roomNo1);
 	
 		String check = "SELECT *  FROM reservation WHERE room_number =" + roomNo+"AND depature_date::date = date '"+ end1.toString() + "'"+"AND arrival_date::date = date '"+ start1.toString() + "'";
 		ResultSet rs = stmt.executeQuery(check);
