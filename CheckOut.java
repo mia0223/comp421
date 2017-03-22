@@ -22,7 +22,7 @@ public class CheckOut {
 		Date d1 = Date.valueOf("2017-02-04");
 		Date d2 = Date.valueOf("2017-02-09");
 		//System.out.println(d1);
-		System.out.println(checkOut(207,"2017-01-31" ));
+		System.out.println(checkOut("207","2017-01-31" ));
 		//System.out.println(changeRoom(211,"2017-02-03","2017-02-09"));
 		//test(d1,d2);
 	}
@@ -36,11 +36,12 @@ public class CheckOut {
 		return conn;
 	}
 	
-	public static String checkOut(int roomNo, String date) throws SQLException{
+	public static String checkOut(String roomNo1, String date) throws SQLException{
 		Connection conn = connect();
 		Statement stmt = conn.createStatement();
 		String string="";
 		
+		int roomNo = Integer.parseInt(roomNo1);
 		//Date date1 = Date.valueOf(date);
 		
 		String check = "SELECT *  FROM reservation WHERE room_number =" + roomNo+"AND depature_date::date = date '"+ date + "'";
