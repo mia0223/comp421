@@ -1,0 +1,7 @@
+mp = filter raw by elected == 1;
+parl_party = GROUP mp BY (parl, party);
+party_count = FOREACH parl_party {GENERATE group.parl, group.party, COUNT ($1);}
+parls = GROUP mp BY (parl);
+parl_count = FOREACH parls {GENERATE group as parl, COUNT ($1);}
+jnd = join party_count by parl, parl_count by parl;
+result = FOREACH jnd GENERATE ($0) as Parliament, ($1), ($2), ($4);
