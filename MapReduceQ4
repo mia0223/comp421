@@ -8,4 +8,4 @@ result = FOREACH jnd GENERATE ($0) as Parliament, ($1), ($2), ($4);
 
 STORE result INTO 'hdfs://cs421-hd1.cs.mcgill.ca:9000/user/cs421g45/q4'
     using PigStorage('\t','-schema');
-hadoop fs -put - hdfs://cs421-hd1.cs.mcgill.ca:9000/user/cs421g45/q4/result/q4.csv
+hadoop fs -put - hdfs://cs421-hd1.cs.mcgill.ca:9000/user/cs421g45/q4/result/q4.csv;
